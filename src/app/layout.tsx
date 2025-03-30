@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { SidebarProvider } from "@/contexts/SidebarContext";
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
+import SideNav from "@/components/layout/SideNav";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SidebarProvider>
-            <LayoutWrapper>{children}</LayoutWrapper>
+            <div className="flex h-screen transition-all duration-300">
+              <SideNav />
+              <LayoutWrapper>{children}</LayoutWrapper>
+            </div>
           </SidebarProvider>
         </ThemeProvider>
       </body>
