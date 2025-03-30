@@ -14,7 +14,7 @@ const config: Config = {
         border: "var(--border)",
         muted: "var(--muted)",
         muted_solid: "var(--muted_solid)",
-        muted_foreground: "var(--muted-foreground)",
+        muted_foreground: "var(--muted_foreground)",
       },
     },
   },
