@@ -1,21 +1,23 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: theme(colors.white / 50%);
-  --foreground: theme(colors.gray.900);
-  --border: theme(colors.gray.200);
-  --muted: theme(colors.gray.100 / 50%);
-  --muted-solid: theme(colors.gray.100);
-  --muted-foreground: theme(colors.gray.500);
+  --background: #ffffff80;
+  --foreground: #0a0a0a;
+  --border: #e5e5e5;
+  --muted: #f5f5f580;
+  --muted_solid: #f5f5f5;
+  --muted_foreground: #737373;
 }
 
 .dark {
-  --background: theme(colors.gray.900 / 50%);
-  --foreground: theme(colors.gray.50);
-  --border: theme(colors.gray.700);
-  --muted: theme(colors.gray.700 / 50%);
-  --muted-solid: theme(colors.gray.700);
-  --muted-foreground: theme(colors.gray.400);
+  --background: #0a0a0a80;
+  --foreground: #fafafa;
+  --border: #3d3d3d;
+  --muted: #3d3d3d80;
+  --muted_solid: #3d3d3d;
+  --muted_foreground: #a3a3a3;
 }
 
 * {
