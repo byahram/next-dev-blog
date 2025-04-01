@@ -5,7 +5,7 @@ const font = Gugi({ subsets: ["latin"], weight: "400" });
 
 interface TitleProps {
   title: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const Title: React.FC<TitleProps> = ({ title, children }) => {

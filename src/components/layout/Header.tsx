@@ -5,8 +5,9 @@ import { useTheme } from "next-themes";
 import NavLink from "../ui/NavLink";
 
 const tabList = [
-  { href: "/", text: "blog" },
-  { href: "/tags", text: "tags" },
+  { href: "/", text: "Home" },
+  { href: "/tags", text: "Tags" },
+  { href: "/contact", text: "Contact" },
 ];
 
 const Header = () => {
