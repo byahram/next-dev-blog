@@ -9,6 +9,8 @@
   --muted: #f5f5f580;
   --muted_solid: #f5f5f5;
   --muted_foreground: #737373;
+  --card_bg: #f0f0f080;
+  --card_solid: #eeeeee;
 }
 
 .dark {
@@ -18,6 +20,8 @@
   --muted: #3d3d3d80;
   --muted_solid: #3d3d3d;
   --muted_foreground: #a3a3a3;
+  --card_bg: #1a1a1a80;
+  --card_solid: #1e1e1e;
 }
 
 * {

@@ -15,6 +15,8 @@ const config: Config = {
         muted: "var(--muted)",
         muted_solid: "var(--muted_solid)",
         muted_foreground: "var(--muted_foreground)",
+        card_bg: "var(--card_bg)",
+        card_solid: "var(--card_bg)",
       },
     },
   },
