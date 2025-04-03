@@ -16,7 +16,8 @@ export const Breadcrumbs = ({
   isLoading?: boolean;
 }) => {
   return (
-    <Breadcrumb className="h-20 bg-muted rounded-lg border flex items-center justify-start px-6">
+    // <Breadcrumb className="h-20 bg-muted rounded-lg border flex items-center justify-start px-6">
+    <Breadcrumb className="flex items-center justify-start pb-8">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
