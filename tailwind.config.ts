@@ -13,7 +13,7 @@ const config: Config = {
         foreground: "var(--foreground)",
         
         accent: "var(--accent)",
-        foreground: "var(--foreground)",
+        accent_foreground: "var(--accent_foreground)",
         
         muted: "var(--muted)",
         muted_solid: "var(--muted_solid)",
