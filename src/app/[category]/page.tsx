@@ -42,6 +42,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
   try {
     posts = await getPostsByCategory(category);
+    console.log(posts);
   } catch (error) {
     console.error("Error reading directory:", error);
     return <p className="text-red-500">Error loading posts.</p>;
@@ -64,10 +65,11 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       <Title title={`${category} Posts`}></Title>
       {paginatedPosts.length > 0 ? (
         <>
-          <p className="text-sm text-muted-foreground mt-2">
-            총 {posts.length}개의 글이 있습니다.
-          </p>
-          <Table posts={paginatedPosts} category={category} />
+          <Table
+            allPosts={posts}
+            postsByCat={paginatedPosts}
+            category={category}
+          />
           <Pagination className="mt-8">
             <PaginationContent>
               {page > 1 && (
@@ -79,10 +81,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                 const pageNumber = i + 1;
                 return (
                   <PaginationItem key={i}>
-                    <PaginationLink
-                      href={`/${category}?page=${pageNumber}`}
-                      isActive={pageNumber === page}
-                    >
+                    <PaginationLink href={`/${category}?page=${pageNumber}`}>
                       {pageNumber}
                     </PaginationLink>
                   </PaginationItem>

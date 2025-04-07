@@ -9,9 +9,11 @@ import {
 import { Skeleton } from "../ui/Skeleton";
 
 export const Breadcrumbs = ({
+  category,
   pageName,
   isLoading,
 }: {
+  category?: string;
   pageName?: string;
   isLoading?: boolean;
 }) => {
@@ -22,14 +24,30 @@ export const Breadcrumbs = ({
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbPage className="px-2 py-1 border bg-background rounded-sm">
-          {isLoading ? (
-            <Skeleton className="h-5 w-20" />
-          ) : (
-            <BreadcrumbLink>{pageName || ""}</BreadcrumbLink>
-          )}
-        </BreadcrumbPage>
+
+        {/* 카테고리 있을 때 */}
+        {category && (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/${category}`}>{category}</BreadcrumbLink>
+            </BreadcrumbItem>
+          </>
+        )}
+
+        {/* 페이지 이름 있을 때 */}
+        {pageName && (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbPage className="px-2 py-1 border bg-background rounded-sm">
+              {isLoading ? (
+                <Skeleton className="h-5 w-20" />
+              ) : (
+                <BreadcrumbLink>{pageName}</BreadcrumbLink>
+              )}
+            </BreadcrumbPage>
+          </>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   );

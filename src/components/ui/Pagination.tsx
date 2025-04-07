@@ -8,6 +8,7 @@ import { ButtonProps, buttonVariants } from "./Button";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
+// Pagination
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
     role="navigation"
@@ -18,6 +19,7 @@ const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
 );
 Pagination.displayName = "Pagination";
 
+// PaginationContent
 const PaginationContent = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<"ul">
@@ -30,6 +32,7 @@ const PaginationContent = React.forwardRef<
 ));
 PaginationContent.displayName = "PaginationContent";
 
+// PaginationItem
 const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
@@ -39,21 +42,26 @@ const PaginationItem = React.forwardRef<
 PaginationItem.displayName = "PaginationItem";
 
 type PaginationLinkProps = {
-  isActive?: boolean;
-} & Pick<ButtonProps, "size"> &
-  React.ComponentProps<"a">;
+  href: string;
+  size?: ButtonProps["size"];
+  children?: React.ReactNode;
+} & React.ComponentProps<"a">;
 
+// PaginationLink
 const PaginationLink = ({
   className,
   size = "icon",
-  href = "#",
+  href,
   children,
   ...props
 }: PaginationLinkProps) => {
-  // const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentPage = searchParams.get("page") || "1"; // 현재 page 쿼리
-  const isActive = href.includes(`page=${currentPage}`); // 지금 page랑 href의 page 비교
+  const currentPage = searchParams.get("page") || "1";
+
+  const url = new URLSearchParams(href.split("?")[1]);
+  const targetPage = url.get("page") || "1";
+
+  const isActive = currentPage === targetPage;
 
   return (
     <Link
@@ -74,6 +82,7 @@ const PaginationLink = ({
 };
 PaginationLink.displayName = "PaginationLink";
 
+// PaginationPrevious
 const PaginationPrevious = ({
   className,
   ...props
@@ -90,6 +99,7 @@ const PaginationPrevious = ({
 );
 PaginationPrevious.displayName = "PaginationPrevious";
 
+// PaginationNext
 const PaginationNext = ({
   className,
   ...props
@@ -106,6 +116,7 @@ const PaginationNext = ({
 );
 PaginationNext.displayName = "PaginationNext";
 
+// PaginationEllipsis
 const PaginationEllipsis = ({
   className,
   ...props

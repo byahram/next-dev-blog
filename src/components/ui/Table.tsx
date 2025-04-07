@@ -5,15 +5,20 @@ import { BlogPostMeta } from "@/utils/posts";
 import { Badge } from "@/components/ui/Badge";
 
 export function Table({
-  posts,
+  allPosts,
+  postsByCat,
   category,
 }: {
-  posts: BlogPostMeta[];
+  allPosts: BlogPostMeta[];
+  postsByCat: BlogPostMeta[];
   category: string;
 }) {
   return (
-    <div className="overflow-x-auto">
-      <table className="table-auto border-collapse border my-6 w-full text-left">
+    <div className="overflow-x-auto my-6 ">
+      <p className="text-sm text-muted_foreground mb-3">
+        총 {allPosts.length}개의 글이 있습니다.
+      </p>
+      <table className="table-auto border-collapse borderw-full text-left w-full">
         <thead className="bg-card_solid">
           <tr className="border-b text-center">
             <th className="w-[5%] px-4 py-3 font-semibold border text-muted-foreground">
@@ -32,7 +37,7 @@ export function Table({
           </tr>
         </thead>
         <tbody>
-          {posts.map((post, index) => (
+          {postsByCat.map((post, index) => (
             <tr
               key={post.slug}
               className="border-b hover:bg-accent text-center"
