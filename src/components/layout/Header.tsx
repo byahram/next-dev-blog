@@ -14,6 +14,12 @@ const Header = () => {
   const { toggleSidebar, isOpen } = useSidebar();
   const { theme, setTheme } = useTheme();
 
+  const handleClick = (href: string) => {
+    if (href === "/tags" || href === "/contact") {
+      alert("준비 중입니다.");
+    }
+  };
+
   return (
     <header className="h-20 bg-muted rounded-lg border flex items-center justify-between px-6">
       <button
@@ -25,7 +31,11 @@ const Header = () => {
       <div className="flex items-center justify-center gap-5">
         <div className="flex items-center justify-center gap-3">
           {tabList.map((link) => (
-            <NavLink key={link.href} href={link.href}>
+            <NavLink
+              key={link.href}
+              href={link.href}
+              onClick={() => handleClick(link.href)}
+            >
               {link.text}
             </NavLink>
           ))}

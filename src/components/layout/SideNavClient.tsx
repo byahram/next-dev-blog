@@ -39,7 +39,7 @@ export default function SideNavClient({
           <div className="flex flex-col justify-between h-full">
             <div className="grid gap-2">
               {categories.map((cat) => (
-                <NavLink key={cat} href={`/posts/${cat}`} icon={ChevronsRight}>
+                <NavLink key={cat} href={`/${cat}`} icon={ChevronsRight}>
                   {cat}
                 </NavLink>
               ))}

@@ -1,79 +1,103 @@
-import Link from "next/link";
-import { BlogPostMeta, getPostsByCategory } from "@/utils/posts";
+import {
+  BlogPostMeta,
+  getAllCategories,
+  getPostsByCategory,
+} from "@/utils/posts";
 import { Title } from "@/components/layout/Title";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { Badge } from "@/components/ui/Badge";
+import { Table } from "@/components/ui/Table";
+import { NoContent } from "@/components/ui/NoContent";
+import { notFound } from "next/navigation";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/Pagination";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { category: string };
-}) {
+export async function generateStaticParams() {
+  const categories = getAllCategories();
+  return categories.map((category) => ({
+    category,
+  }));
+}
+
+type Props = {
+  params: Promise<{ category: string }>;
+  searchParams?: { page?: string };
+};
+
+const POSTS_PER_PAGE = 10;
+
+export default async function CategoryPage({ params, searchParams }: Props) {
+  const { category } = await params;
+  const search = await searchParams;
+  const page = Number(search?.page) || 1;
+
   let posts: BlogPostMeta[] = [];
 
   try {
-    posts = await getPostsByCategory(params.category);
+    posts = await getPostsByCategory(category);
   } catch (error) {
     console.error("Error reading directory:", error);
     return <p className="text-red-500">Error loading posts.</p>;
   }
 
+  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+
+  if (page > totalPages && totalPages !== 0) {
+    notFound();
+  }
+
+  const paginatedPosts = posts.slice(
+    (page - 1) * POSTS_PER_PAGE,
+    page * POSTS_PER_PAGE
+  );
+
   return (
     <div className="p-6 border overflow-y-scroll no-scrollbar w-full max-w-[100%] rounded-lg bg-muted h-full">
-      <Breadcrumbs pageName={params.category} />
-      <Title title={`${params.category} Posts`}></Title>
-      {posts.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="w-full text-center border-collapse mt-4">
-            <thead>
-              <tr className="border-b text-center">
-                <th className="p-2 w-[10%] text-muted-foreground">No</th>
-                <th className="p-2 w-[40%]">Title</th>
-                <th className="p-2 w-[20%] text-muted-foreground hidden md:table-cell">
-                  Tags
-                </th>
-                <th className="p-2 w-[20%] text-muted-foreground hidden md:table-cell">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {posts.map((post, index) => (
-                <tr key={post.slug} className="border-b hover:bg-accent">
-                  <td className="p-2 w-10 md:w-20">{index + 1}</td>
-                  <td className="p-2 text-left">
-                    <Link
-                      href={`/${params.category}/${post.slug}`}
-                      className="text-foreground hover:underline font-medium"
+      <Breadcrumbs pageName={category} />
+      <Title title={`${category} Posts`}></Title>
+      {paginatedPosts.length > 0 ? (
+        <>
+          <p className="text-sm text-muted-foreground mt-2">
+            총 {posts.length}개의 글이 있습니다.
+          </p>
+          <Table posts={paginatedPosts} category={category} />
+          <Pagination className="mt-8">
+            <PaginationContent>
+              {page > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious href={`/${category}?page=${page - 1}`} />
+                </PaginationItem>
+              )}
+              {Array.from({ length: totalPages }).map((_, i) => {
+                const pageNumber = i + 1;
+                return (
+                  <PaginationItem key={i}>
+                    <PaginationLink
+                      href={`/${category}?page=${pageNumber}`}
+                      isActive={pageNumber === page}
                     >
-                      {post.title || post.slug}
-                    </Link>
-                  </td>
-                  <td className="p-2 text-sm text-muted-foreground hidden md:table-cell">
-                    {post.tags?.length ? (
-                      <div className="flex flex-wrap justify-center gap-1">
-                        {post.tags.map((tag) => (
-                          <Badge key={tag} variant="muted">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    ) : (
-                      "—"
-                    )}
-                  </td>
-                  <td className="p-2 text-sm text-muted-foreground hidden md:table-cell">
-                    {new Date(post.date).toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+              {page < totalPages && (
+                <PaginationItem>
+                  <PaginationNext href={`/${category}?page=${page + 1}`} />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
+        </>
       ) : (
-        <p className="text-foreground mt-4">No posts found.</p>
+        <NoContent />
       )}
     </div>
   );

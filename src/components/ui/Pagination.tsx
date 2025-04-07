@@ -1,8 +1,12 @@
+"use client";
+
 import * as React from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 import { ButtonProps, buttonVariants } from "./Button";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
@@ -41,22 +45,33 @@ type PaginationLinkProps = {
 
 const PaginationLink = ({
   className,
-  isActive,
   size = "icon",
+  href = "#",
+  children,
   ...props
-}: PaginationLinkProps) => (
-  <a
-    aria-current={isActive ? "page" : undefined}
-    className={cn(
-      buttonVariants({
-        variant: isActive ? "outline" : "ghost",
-        size,
-      }),
-      className
-    )}
-    {...props}
-  />
-);
+}: PaginationLinkProps) => {
+  // const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = searchParams.get("page") || "1"; // 현재 page 쿼리
+  const isActive = href.includes(`page=${currentPage}`); // 지금 page랑 href의 page 비교
+
+  return (
+    <Link
+      href={href}
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        buttonVariants({
+          variant: isActive ? "outline" : "ghost",
+          size,
+        }),
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </Link>
+  );
+};
 PaginationLink.displayName = "PaginationLink";
 
 const PaginationPrevious = ({
