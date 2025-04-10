@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { SidebarProvider } from "@/contexts/SidebarContext";
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
 import SideNav from "@/components/layout/SideNav";
+
+import "./globals.css";
+import "highlight.js/styles/github.css";
 
 const font = Inter({ subsets: ["latin"] });
 

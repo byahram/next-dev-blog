@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { MDXComponents } from "@/components/posts/MDXComponents";
+import rehypePrettyCode from "rehype-pretty-code";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
 }
 
 type Props = {
-  params: Promise<{ category: string; slug: string }>;
+  params: { category: string; slug: string };
 };
 
 export default async function PostDetailPage({ params }: Props) {
@@ -35,7 +36,9 @@ export default async function PostDetailPage({ params }: Props) {
     <div className="p-6 border overflow-y-scroll no-scrollbar w-full max-w-[100%] rounded-lg bg-muted h-full">
       <Breadcrumbs category={category} pageName={frontmatter.title} />
       <Title title={frontmatter.title} />
-      <p className="text-muted-foreground text-sm mt-2">{frontmatter.date}</p>
+      <p className="text-muted-foreground text-sm mt-2">
+        {new Date(frontmatter.date).toISOString().split("T")[0]}
+      </p>
 
       {/* 본문 */}
       <div className="prose dark:prose-invert mt-8 max-w-none">
@@ -44,7 +47,17 @@ export default async function PostDetailPage({ params }: Props) {
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],
-              rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+              rehypePlugins: [
+                rehypeSlug,
+                rehypeAutolinkHeadings,
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: "github-dark",
+                    keepBackground: false,
+                  },
+                ],
+              ],
               format: "md",
             },
           }}
