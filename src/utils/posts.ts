@@ -87,13 +87,28 @@ export function getPostSlugs(): { category: string; slug: string }[] {
 }
 
 // 단일 게시물 내용 + frontmatter 가져오기
-export async function getPostBySlug(category: string, slug: string) {
+export async function getPostBySlug(
+  category: string,
+  slug: string
+): Promise<{
+  frontmatter: {
+    title: string;
+    date: string;
+    tags?: string[];
+  };
+  content: string;
+} | null> {
   const filePath = path.join(postsDirectory, category, `${slug}.mdx`);
   const fileContent = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContent);
 
+  const frontmatter = data as {
+    title: string;
+    date: string;
+    tags?: string[];
+  };
   return {
-    frontmatter: data,
+    frontmatter,
     content,
   };
 }
