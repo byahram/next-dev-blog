@@ -9,6 +9,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { MDXComponents } from "@/components/posts/MDXComponents";
 import rehypePrettyCode from "rehype-pretty-code";
+import { TopButton } from "@/components/layout/TopButton";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +42,7 @@ export default async function PostDetailPage({ params }: Props) {
       </p>
 
       {/* 본문 */}
-      <div className="prose dark:prose-invert mt-8 max-w-none">
+      <div className="prose text-base dark:prose-invert mt-8 max-w-none prose-headings:scroll-mt-24 prose-h2:text-2xl prose-h2:font-bold prose-h2:border-b prose-h2:border-muted prose-h2:pb-1 prose-h3:text-xl prose-h3:font-semibold prose-h4:text-lg prose-h4:font-medium prose-h5:text-base prose-h5:font-medium">
         <MDXRemote
           source={content}
           options={{
@@ -80,6 +81,9 @@ export default async function PostDetailPage({ params }: Props) {
           ))}
         </div>
       )}
+
+      {/* Top 버튼 추가 */}
+      <TopButton />
     </div>
   );
 }
