@@ -68,7 +68,9 @@ export function Table({
                 )}
               </td>
               <td className="px-4 py-2.5 border text-muted-foreground hidden md:table-cell">
-                {new Date(post.date).toLocaleDateString()}
+                {new Date(post.date)
+                  .toLocaleDateString("ko-KR")
+                  .replace(/\.$/, "")}
               </td>
             </tr>
           ))}
